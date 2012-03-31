@@ -1,0 +1,30 @@
+/*
+ * README
+ *
+ * Author - Robert Horswell
+ *
+ * A program running an escape time algorithm to draw Julia sets of functions.
+ *
+ * Last rewritten 31/03/2012
+ * 
+ */
+
+Controls:
+
+	Keys:
+
+		Escape quits the program.
+		The arrow keys allow you to translate the fractal.
+		Page_Up and Page_Down zoom in and out of the fractal.
+		P starts and stops colour animation.
+		A toggles the direction of the colour animation.
+		R resets the view of the fractal.
+		Numbers 1 - 5 switch between different colour maps.
+		V prints information about the image to the terminal.
+
+	Mouse:
+
+		Left click zooms in on the point you clicked at.
+		Control left click zooms out on the point you clicked at.
+		Right click allows you to 'drag' the fractal about.
+		Shift left click switches between Parameter space and Julia modes, choosing the Julia set from the point clicked.
