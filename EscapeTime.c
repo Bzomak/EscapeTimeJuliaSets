@@ -64,24 +64,25 @@ void generateData () {
 	int sy;
 	Complex z, w, *c;
 	if (fracData == NULL) allocData ();
+	int *fracPoint = fracData;
 	for (sx = 0; sx < n1; ++sx) {
-		for (sy = 0; sy < n2; ++sy) {
+		for (sy = 0; sy < n2; ++sy, ++fracPoint) {
 			screenToComplex (sx, sy, &w);
 			z = w;
-			if (mode== 1) c = &w;
+			if (mode == 1) c = &w;
 			else c = &julia;
 			for (k = 0; k < MAX_ITERATIONS; ++k) {
 				z = cmultComplex (&z, &z);
 //				z = cmultComplex (&z, &z);
-//				z = addComplex (&z, c);
+				z = addComplex (&z, c);
 //				z = sinComplex (&z);
 //				z = cmultComplex (c, &z);
-				z.real = c->imaginary + z.real;
-				z.imaginary = c->real - z.imaginary;
+//				z.real = c->imaginary + z.real;
+//				z.imaginary = c->real - z.imaginary;
 //				z = cmultComplex (c, &z);
 				if (z.real * z.real + z.imaginary * z.imaginary > ESCAPE_RADIUS) break;
 			}
-			fracData[(sx * n2) + sy] = k;
+			*fracPoint = k;
 		}
 	}
 }
@@ -112,10 +113,11 @@ void display (void) {
  	int sy;
 	glClear (GL_COLOR_BUFFER_BIT);
 	if (fracData == NULL) return;
+	int *fracPoint = fracData;
 	glBegin (GL_POINTS);
 	for (sx = 0; sx < n1; ++sx) {
-		for (sy = 0; sy < n2; ++sy) {
-			k = fracData[(sx * n2) + sy];
+		for (sy = 0; sy < n2; ++sy, ++fracPoint) {
+			k = *fracPoint;
 			getColour (k);
 			glVertex2i (sx, sy);
 		}
@@ -150,12 +152,12 @@ void mouse (int button, int state, int x, int y) {
 				Complex c;
 				screenToComplex (x, (n2 - y - 1), &c);
 				if (glutGetModifiers () == GLUT_ACTIVE_SHIFT) {
-					if (mode== 1) {
-						mode= 0;
+					if (mode == 1) {
+						mode = 0;
 						julia = c;
 					}
 					else {
-						mode= 1;
+						mode = 1;
 					}
 					trans = newComplex (0, 0);
 					zoom = 2;
@@ -239,7 +241,7 @@ void keyboard (unsigned char key, int x, int y) {
 			break;
 		case 'V':
 		case 'v':
-			if (mode== 1) printf("Parameter space\n");
+			if (mode == 1) printf("Parameter space\n");
 			else printf("c = %f + %fi\n", julia.real, julia.imaginary);
 			printf ("Zoom: %f\n", zoom);
 			printf ("Centre: %f + %fi\n", trans.real, trans.imaginary);
@@ -285,7 +287,7 @@ void initialise (void) {
 	iters = 0;
 	dir = 1;
 	animToggle = 1;
-	mode= 1;
+	mode = 1;
 	cimax = goodega_len;
 	cmap = goodega;
 }
