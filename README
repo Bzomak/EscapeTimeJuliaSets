@@ -27,4 +27,5 @@ Controls:
 		Left click zooms in on the point you clicked at.
 		Control left click zooms out on the point you clicked at.
 		Right click allows you to 'drag' the fractal about.
-		Shift left click switches between Parameter space and Julia modes, choosing the Julia set from the point clicked.
+		Shift left click switches between Parameter space and Julia modes, 
+		choosing the Julia set from the point clicked.
