@@ -35,7 +35,7 @@ double zoom;
 int *fracData = NULL;
 size_t fracData_len;
 int animToggle;
-Complex JULIA;
+Complex julia;
 Complex trans;
 const float *cmap;
 
@@ -69,15 +69,15 @@ void generateData () {
 			screenToComplex (sx, sy, &w);
 			z = w;
 			if (mode== 1) c = &w;
-			else c = &JULIA;
+			else c = &julia;
 			for (k = 0; k < MAX_ITERATIONS; ++k) {
 				z = cmultComplex (&z, &z);
-				z = cmultComplex (&z, &z);
-				z = addComplex (&z, c);
+//				z = cmultComplex (&z, &z);
+//				z = addComplex (&z, c);
 //				z = sinComplex (&z);
 //				z = cmultComplex (c, &z);
-//				z.real = c->imaginary + z.real;
-//				z.imaginary = c->real - z.imaginary;
+				z.real = c->imaginary + z.real;
+				z.imaginary = c->real - z.imaginary;
 //				z = cmultComplex (c, &z);
 				if (z.real * z.real + z.imaginary * z.imaginary > ESCAPE_RADIUS) break;
 			}
@@ -157,13 +157,13 @@ void mouse (int button, int state, int x, int y) {
 				if (glutGetModifiers () == GLUT_ACTIVE_SHIFT) {
 					if (mode== 1) {
 						mode= 0;
-						JULIA = c;
+						julia = c;
 					}
 					else {
 						mode= 1;
 					}
 					trans = newComplex (0, 0);
-					zoom = 1;
+					zoom = 2;
 				}
 				else {
 					trans = c;
@@ -245,7 +245,7 @@ void keyboard (unsigned char key, int x, int y) {
 		case 'V':
 		case 'v':
 			if (mode== 1) printf("Parameter space\n");
-			else printf("c = %f + %fi\n", JULIA.real, JULIA.imaginary);
+			else printf("c = %f + %fi\n", julia.real, julia.imaginary);
 			printf ("Zoom: %f\n", zoom);
 			printf ("Centre: %f + %fi\n", trans.real, trans.imaginary);
 			printf ("Size: %d x %d\n\n", n1, n2);
