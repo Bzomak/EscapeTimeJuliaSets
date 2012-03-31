@@ -98,15 +98,10 @@ inline void getColour (int k) {
 	if (k == MAX_ITERATIONS) glColor3f (0.0f, 0.0f, 0.0f);
 	else {
 	 	int ci;
-		float cr;
-		float cg;
-		float cb;
-		ci = k + iters;
-		ci %= cimax;
-		cr = *(cmap + (3 * ci));
-		cg = *(cmap + (3 * ci) + 1);
-		cb = *(cmap + (3 * ci) + 2);
-		glColor3f (cr, cg, cb);
+		const float *cp;
+		ci = (k + iters) % cimax;
+		cp = cmap + (3 * ci);
+		glColor3f (*cp, *(cp + 1), *(cp + 2));
 	}
 }
 
